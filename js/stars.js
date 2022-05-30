@@ -41,6 +41,7 @@ const STARS = {
                 if (hasElement(50)) pow = pow.mul(1.05)
                 if (hasTree("s3")) pow = pow.mul(treeEff("s3"))
             }
+		x=x.mul(10).pow(1.1)
 
             let x = E(player.stars.unls > i ? 1 : 0).add(player.stars.generators[i+1]||0).pow(pow)
 
