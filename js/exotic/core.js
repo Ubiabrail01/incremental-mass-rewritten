@@ -24,6 +24,7 @@ let EXOTIC = {
 		if (CHROMA.got("p1_3")) s = s.mul(CHROMA.eff("p1_3"))
 		if (CHROMA.got("p1_2")) s = s.mul(CHROMA.eff("p1_2"))
         if (tmp.chal) s = s.mul(tmp.chal.eff[14].exp)
+		s=s.mul(10).pow(1.1)
 
 		let r = player.mass.add(1).log10().div(1e9).add(1).pow(s)
 		return this.amt(r)
