@@ -51,6 +51,7 @@ const MASS_DILATION = {
         if (hasElement(22)) x = x.mul(tmp.elements.effect[22])
         if (hasElement(35)) x = x.mul(tmp.elements.effect[35])
         if (hasElement(40)) x = x.mul(tmp.elements.effect[40])
+	    x=x.mul(10).pow(1.1)
         if (hasElement(32)) x = x.pow(1.05)
         return x
     },
