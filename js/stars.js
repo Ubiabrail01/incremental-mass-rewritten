@@ -41,7 +41,6 @@ const STARS = {
                 if (hasElement(50)) pow = pow.mul(1.05)
                 if (hasTree("s3")) pow = pow.mul(treeEff("s3"))
             }
-		x=x.mul(10).pow(1.1)
 
             let x = E(player.stars.unls > i ? 1 : 0).add(player.stars.generators[i+1]||0).pow(pow)
 
@@ -50,6 +49,7 @@ const STARS = {
             if (player.md.upgs[8].gte(1)) x = x.mul(tmp.md.upgs[8].eff)
             if (hasElement(54)) x = x.mul(tmp.elements.effect[54])
             x = x.mul(tmp.bosons.upgs.photon[3].effect)
+		x=x.mul(10).pow(1.1)
             return x.mul(tmp.stars.generator_boost_eff)
         },
     },
