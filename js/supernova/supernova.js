@@ -69,6 +69,7 @@ const SUPERNOVA = {
         if (hasElement(74)) x = x.mul(tmp.elements && tmp.elements.effect[74])
         x = x.mul(tmp.radiation.bs.eff[11])
         x = x.mul(tmp.supernova.timeMult)
+	    x=x.mul(10).pow(1.1)
         return x
     },
     req(x=player.supernova.times) {
