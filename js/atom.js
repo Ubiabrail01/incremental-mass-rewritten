@@ -6,6 +6,7 @@ const ATOM = {
         x = x.root(5)
         if (hasUpgrade('rp',15)) x = x.mul(tmp.upgs.main?tmp.upgs.main[1][15].effect:E(1))
         if (!bosonsMastered()) x = x.mul(tmp.bosons.upgs.gluon[0].effect)
+            x=x.mul(10).pow(1.1)
         if (hasElement(17)) x = x.pow(1.1)
         if (FERMIONS.onActive("10")) x = expMult(x,0.625)
         return x.floor()
@@ -23,6 +24,7 @@ const ATOM = {
         if (hasElement(67)) x = x.mul(tmp.elements.effect[67])
         if (player.md.upgs[6].gte(1)) x = x.mul(tmp.md.upgs[6].eff)
         x = x.mul(tmp.md.upgs[9].eff)
+        x=x.mul(10).pow(1.1)
         if (hasElement(47)) x = x.pow(1.1)
         return x.floor()
     },
@@ -148,6 +150,7 @@ const ATOM = {
         gain(i) {
             let x = tmp.atom.particles[i]?tmp.atom.particles[i].effect:E(0)
             if (hasUpgrade('atom',7)) x = x.mul(tmp.upgs.main?tmp.upgs.main[3][7].effect:E(1))
+            x=x.mul(10).pow(1.1)
             return x
         },
         powerEffect: [
