@@ -31,6 +31,7 @@ const RADIATION = {
         }
         x = x.mul(tmp.radiation.bs.eff[3*i])
         x = x.mul(tmp.supernova.timeMult)
+	    x=x.mul(10).pow(1.1)
         return x
     },
     ds_eff(i) {
