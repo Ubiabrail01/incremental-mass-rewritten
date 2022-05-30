@@ -38,6 +38,7 @@ const FORMS = {
         if (hasTree("m1")) x = x.mul(treeEff("m1"))
 
         x = x.mul(tmp.bosons.effect.pos_w[0])
+	    x=x.mul(10).pow(1.1)
 
         if (player.ranks.tier.gte(2)) x = x.pow(1.15)
         if (player.ranks.rank.gte(180)) x = x.pow(1.025)
@@ -149,6 +150,7 @@ const FORMS = {
             if (hasUpgrade('bh',6)) gain = gain.mul(tmp.upgs.main?tmp.upgs.main[2][6].effect:E(1))
             gain = gain.mul(tmp.atom.particles[1].powerEffect.eff1)
             if (hasTree("rp1")) gain = gain.mul(treeEff("rp1"))
+		x=x.mul(10).pow(1.1)
             if (hasUpgrade('bh',8)) gain = gain.pow(1.15)
             gain = gain.pow(tmp.chal.eff[4])
             if (CHALS.inChal(4) || CHALS.inChal(10) || FERMIONS.onActive("03")) gain = gain.root(10)
