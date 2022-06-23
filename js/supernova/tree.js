@@ -86,7 +86,7 @@ const TREE_UPGS = {
             cost: E(350),
             effect() {
                 let sn = player.supernova.times
-                if (!hasTree("qu4")) sn = sn.softcap(15,0.8,0).softcap(25,0.5,0)
+                if (!hasTree("qu4")) sn = sn//.softcap(15,0.8,0)//.softcap(25,0.5,0)
                 let x = E(2).add(hasTree("sn4")?tmp.supernova.tree_eff.sn4:0).pow(sn)
                 return x
             },
@@ -112,7 +112,7 @@ const TREE_UPGS = {
             reqDesc: `13 Supernovas.`,
             cost: E(1e8),
             effect() {
-                let x = player.supernova.times.mul(0.1).softcap(1.5,0.75,0)
+                let x = player.supernova.times.mul(0.1)//.softcap(1.5,0.75,0)
                 return x
             },
             effDesc(x) { return "+"+format(x)+(x.gte(1.5)?" <span class='soft'>(softcapped)</span>":"") },
@@ -133,7 +133,7 @@ const TREE_UPGS = {
             desc: `Neutron star multiplies Mass gain.`,
             cost: E(100),
             effect() {
-                let x = E(1e100).pow(player.supernova.stars.add(1).log10().pow(5).softcap(1e3,0.25,0))
+                let x = E(1e100).pow(player.supernova.stars.add(1).log10().pow(5))
                 return x
             },
             effDesc(x) { return format(x)+"x"+(x.max(1).log(1e100).gte(1e3)?" <span class='soft'>(softcapped)</span>":"") },
@@ -166,7 +166,7 @@ const TREE_UPGS = {
             desc: `Neutron Stars multiplies Rage Powers gain`,
             cost: E(200),
             effect() {
-                let x = E(1e50).pow(player.supernova.stars.add(1).log10().pow(5).softcap(1e3,0.25,0))
+                let x = E(1e50).pow(player.supernova.stars.add(1).log10().pow(5))
                 return x
             },
             effDesc(x) { return format(x)+"x"+(x.max(1).log(1e50).gte(1e3)?" <span class='soft'>(softcapped)</span>":"") },
@@ -176,7 +176,7 @@ const TREE_UPGS = {
             desc: `Neutron Star multiplies Dark Matters gain.`,
             cost: E(400),
             effect() {
-                let x = E(1e35).pow(player.supernova.stars.add(1).log10().pow(5).softcap(1e3,0.25,0))
+                let x = E(1e35).pow(player.supernova.stars.add(1).log10().pow(5))
                 return x
             },
             effDesc(x) { return format(x)+"x"+(x.max(1).log(1e35).gte(1e3)?" <span class='soft'>(softcapped)</span>":"") },
@@ -406,9 +406,9 @@ const TREE_UPGS = {
             cost: E(1e14),
             effect() {
                 let x = tmp.bosons.effect.graviton[0].add(1).root(2)
-                return x.softcap('e1000',1/3,0)
+                return x//.softcap('e1000',1/3,0)
             },
-            effDesc(x) { return format(x)+"x"+x.softcapHTML('e1000') },
+            effDesc(x) { return format(x)+"x"+x},
         },
         bs4: {
             unl() { return player.supernova.fermions.unl },
@@ -685,7 +685,7 @@ const TREE_UPGS = {
             desc: `Higgs Boson's effect is increased by 3.3% for every OoM of Blueprint Particles.`,
             cost: E(1e32),
             effect() {
-                let x = E(1.0333).pow(player.qu.bp.add(1).log10().softcap(70,0.5,0))
+                let x = E(1.0333).pow(player.qu.bp.add(1).log10())
                 return x
             },
             effDesc(x) { return format(x)+"x" },

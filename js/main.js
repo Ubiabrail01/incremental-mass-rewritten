@@ -57,11 +57,11 @@ const FORMS = {
         if (QCs.active()) x = x.pow(tmp.qu.qc_eff[4])
 
         if (CHALS.inChal(9) || FERMIONS.onActive("12")) x = expMult(x,0.9)
-        return x.softcap(tmp.massSoftGain,tmp.massSoftPower,0)
-        .softcap(tmp.massSoftGain2,tmp.massSoftPower2,0)
-        .softcap(tmp.massSoftGain3,tmp.massSoftPower3,0)
-        .softcap(tmp.massSoftGain4,tmp.massSoftPower4,0)
-        .softcap(tmp.massSoftGain5,tmp.massSoftPower5,0)
+            return x////.softcap(tmp.massSoftGain,tmp.massSoftPower,0)
+        // //.softcap(tmp.massSoftGain2,tmp.massSoftPower2,0)
+        // //.softcap(tmp.massSoftGain3,tmp.massSoftPower3,0)
+        // //.softcap(tmp.massSoftGain4,tmp.massSoftPower4,0)
+        // //.softcap(tmp.massSoftGain5,tmp.massSoftPower5,0)
     },
     massSoftGain() {
         let s = E(1.5e156)
@@ -170,7 +170,7 @@ const FORMS = {
             }
             if (hasPrestige(0,6)) ss = ss.pow(100)
             if (hasElement(102)) ss = ss.pow(100)
-            step = step.softcap(ss,p,0)
+            step = step////.softcap(ss,p,0)
             
             let eff = step.pow(t.add(bonus).mul(hasElement(80)?25:1))
             if (hasElement(18)) eff = eff.pow(tmp.elements.effect[18])
@@ -255,10 +255,10 @@ const FORMS = {
 
             if (QCs.active()) x = x.pow(tmp.qu.qc_eff[4])
             if (player.md.active || CHALS.inChal(10) || FERMIONS.onActive("02") || FERMIONS.onActive("03") || CHALS.inChal(11)) x = expMult(x,tmp.md.pen)
-            return x.softcap(tmp.bh.massSoftGain, tmp.bh.massSoftPower, 0)
+            return x////.softcap(tmp.bh.massSoftGain, tmp.bh.massSoftPower, 0)
         },
         f() {
-            let x = player.bh.mass.add(1).pow(tmp.bh.massPowerGain).softcap(tmp.bh.fSoftStart,tmp.bh.fSoftPower,2)
+            let x = player.bh.mass.add(1).pow(tmp.bh.massPowerGain)////.softcap(tmp.bh.fSoftStart,tmp.bh.fSoftPower,2)
             return x
         },
         fSoftStart() {
@@ -302,7 +302,7 @@ const FORMS = {
             ?player.bh.mass.add(1).pow(1.25)
             :player.bh.mass.add(1).root(4)
             if (hasElement(89)) x = x.pow(tmp.elements.effect[89])
-            return x//.softcap("ee14",0.95,2)
+            return x////.softcap("ee14",0.95,2)
         },
         condenser: {
             autoSwitch() { player.bh.autoCondenser = !player.bh.autoCondenser },

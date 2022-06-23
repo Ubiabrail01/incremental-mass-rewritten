@@ -94,7 +94,7 @@ const UPGS = {
                 let step = E(2)
                 if (player.ranks.rank.gte(5)) step = step.add(RANKS.effect.rank[5]())
                 step = step.pow(tmp.upgs.mass[3]?tmp.upgs.mass[3].eff.eff:1)
-                let ret = step.mul(x.add(tmp.upgs.mass[2].bonus)).add(1)//.softcap("ee14",0.95,2)
+                let ret = step.mul(x.add(tmp.upgs.mass[2].bonus)).add(1)////.softcap("ee14",0.95,2)
                 return {step: step, eff: ret}
             },
             effDesc(eff) {
@@ -136,9 +136,9 @@ const UPGS = {
                     sp2 **= 0.9
                     ss2 = ss2.mul(3)
                 }
-                let ret = step.mul(xx.mul(hasElement(80)?25:1)).add(1).softcap(ss,sp,0).softcap(1.8e5,hasPrestige(0,12)?0.525:0.5,0)
+                let ret = step.mul(xx.mul(hasElement(80)?25:1)).add(1)//.softcap(ss,sp,0)//.softcap(1.8e5,hasPrestige(0,12)?0.525:0.5,0)
                 ret = ret.mul(tmp.prim.eff[0])
-                if (!player.ranks.pent.gte(15)) ret = ret.softcap(ss2,sp2,0)
+                if (!player.ranks.pent.gte(15)) ret = ret//.softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
             },
             effDesc(eff) {
@@ -235,7 +235,7 @@ const UPGS = {
                 desc: "Super, Hyper Mass Upgrades scaling is weaker by Rage Points.",
                 cost: E(1e15),
                 effect() {
-                    let ret = E(0.9).pow(player.rp.points.max(1).log10().max(1).log10().pow(1.25).softcap(2.5,0.5,0))
+                    let ret = E(0.9).pow(player.rp.points.max(1).log10().max(1).log10().pow(1.25))
                     return ret
                 },
                 effDesc(x=this.effect()) {
@@ -257,8 +257,8 @@ const UPGS = {
                 desc: "Black Hole mass's gain is boosted by Rage Points.",
                 cost: E(1e72),
                 effect() {
-                    let ret = player.rp.points.add(1).root(10).softcap('e4000',0.1,0)
-                    return ret//.softcap("ee13",0.9,2)
+                    let ret = player.rp.points.add(1).root(10)//.softcap('e4000',0.1,0)
+                    return ret////.softcap("ee13",0.9,2)
                 },
                 effDesc(x=this.effect()) {
                     return format(x)+"x"+(x.gte("e4000")?" <span class='soft'>(softcapped)</span>":"")
@@ -269,7 +269,7 @@ const UPGS = {
                 desc: "For every OoM of Rage Powers adds Stronger Power at a reduced rate.",
                 cost: E(1e120),
                 effect() {
-                    let ret = player.rp.points.max(1).log10().softcap(200,0.75,0).div(1000)
+                    let ret = player.rp.points.max(1).log10()//.softcap(200,0.75,0).div(1000)
                     return ret
                 },
                 effDesc(x=this.effect()) {
@@ -339,7 +339,7 @@ const UPGS = {
                 desc: "Super Mass Upgrade scales later based on mass of Black Hole.",
                 cost: E(100),
                 effect() {
-                    let ret = player.bh.mass.max(1).log10().pow(1.5).softcap(100,1/3,0).floor()
+                    let ret = player.bh.mass.max(1).log10().pow(1.5)//.softcap(100,1/3,0).floor()
                     return ret.min(400)
                 },
                 effDesc(x=this.effect()) {
@@ -399,7 +399,7 @@ const UPGS = {
                 desc: "Mass gain is boosted by OoM of Dark Matters.",
                 cost: E(1e33),
                 effect() {
-                    let ret = E(2).pow(player.bh.dm.add(1).log10().softcap(11600,0.5,0))
+                    let ret = E(2).pow(player.bh.dm.add(1).log10())
                     return ret
                 },
                 effDesc(x=this.effect()) {
@@ -427,7 +427,7 @@ const UPGS = {
                 cost: E(1e210),
                 effect() {
                     let ret = player.atom.powers[1].add(1).pow(2)
-                    return ret//.softcap("ee13",0.9,2)
+                    return ret////.softcap("ee13",0.9,2)
                 },
                 effDesc(x=this.effect()) {
                     return format(x)+"x"
@@ -438,7 +438,7 @@ const UPGS = {
                 desc: "Atomic Powers adds Black Hole Condensers at a reduced rate.",
                 cost: E('e420'),
                 effect() {
-                    let ret = player.atom.atomic.add(1).log(5).softcap(2e9,0.25,0).softcap(1e10,0.1,0)
+                    let ret = player.atom.atomic.add(1).log(5)//.softcap(2e9,0.25,0)//.softcap(1e10,0.1,0)
                     return ret.floor()
                 },
                 effDesc(x=this.effect()) {

@@ -84,7 +84,7 @@ const RADIATION = {
         {
             title: `Radio Boost`,
             eff(b) {
-                let x = player.supernova.radiation.hz.add(1).log10().add(1).pow(b).softcap(1e30,0.5,0)
+                let x = player.supernova.radiation.hz.add(1).log10().add(1).pow(b)//.softcap(1e30,0.5,0)
                 return x
             },
             desc(x) { return `Radiowave is boosted by ${format(x)}x (based on Frequency)` },
@@ -105,7 +105,7 @@ const RADIATION = {
         },{
             title: `Microwave Boost`,
             eff(b) {
-                let x = player.supernova.radiation.ds[0].add(1).log10().add(1).pow(b).softcap(1e30,0.5,0)
+                let x = player.supernova.radiation.ds[0].add(1).log10().add(1).pow(b)//.softcap(1e30,0.5,0)
                 return x
             },
             desc(x) { return `Microwave is boosted by ${format(x)}x (based on Radio)` },
@@ -120,13 +120,13 @@ const RADIATION = {
             title: `BH-Condenser Boost`,
             eff(b) {
                 let x = b.add(1).pow(2)
-                return x.softcap(100,0.5,0)
+                return x//.softcap(100,0.5,0)
             },
             desc(x) { return `Non-bonus BH condenser is ${format(x)}x stronger` },
         },{
             title: `Infrared Boost`,
             eff(b) {
-                let x = player.supernova.radiation.ds[1].add(1).log10().add(1).pow(b).softcap(1e30,0.5,0)
+                let x = player.supernova.radiation.ds[1].add(1).log10().add(1).pow(b)//.softcap(1e30,0.5,0)
                 return x
             },
             desc(x) { return `Infrared is boosted by ${format(x)}x (based on Microwave)` },
@@ -148,7 +148,7 @@ const RADIATION = {
         },{
             title: `Visible Boost`,
             eff(b) {
-                let x = player.supernova.radiation.ds[2].add(1).log10().add(1).pow(b).softcap(1e30,0.5,0)
+                let x = player.supernova.radiation.ds[2].add(1).log10().add(1).pow(b)//.softcap(1e30,0.5,0)
                 return x
             },
             desc(x) { return `Visible is boosted by ${format(x)}x (based on Infrared)` },
@@ -169,7 +169,7 @@ const RADIATION = {
         },{
             title: `Ultraviolet Boost`,
             eff(b) {
-                let x = player.supernova.radiation.ds[3].add(1).log10().add(1).pow(b).softcap(1e30,0.5,0)
+                let x = player.supernova.radiation.ds[3].add(1).log10().add(1).pow(b)//.softcap(1e30,0.5,0)
                 return x
             },
             desc(x) { return `Ultraviolet is boosted by ${format(x)}x (based on Visible)` },
@@ -190,7 +190,7 @@ const RADIATION = {
         },{
             title: `X-ray Boost`,
             eff(b) {
-                let x = player.supernova.radiation.ds[4].add(1).log10().add(1).pow(b).softcap(1e30,0.5,0)
+                let x = player.supernova.radiation.ds[4].add(1).log10().add(1).pow(b)//.softcap(1e30,0.5,0)
                 return x
             },
             desc(x) { return `X-ray is boosted by ${format(x)}x (based on Ultraviolet)` },
@@ -212,7 +212,7 @@ const RADIATION = {
         },{
             title: `Gamma-ray Boost`,
             eff(b) {
-                let x = player.supernova.radiation.ds[5].add(1).log10().add(1).pow(b).softcap(1e30,0.5,0)
+                let x = player.supernova.radiation.ds[5].add(1).log10().add(1).pow(b)//.softcap(1e30,0.5,0)
                 return x
             },
             desc(x) { return `Gamma-ray is boosted by ${format(x)}x (based on X-ray)` },
@@ -259,7 +259,7 @@ function updateRadiationTemp() {
         tmp.radiation.bs.sum[x] = player.supernova.radiation.bs[2*x].add(player.supernova.radiation.bs[2*x+1])
 
         for (let y = 0; y < 3; y++) {
-            tmp.radiation.bs.lvl[3*x+y] = tmp.radiation.bs.sum[x].add(2-y).div(3).floor()//.softcap(10,0.75,0)
+            tmp.radiation.bs.lvl[3*x+y] = tmp.radiation.bs.sum[x].add(2-y).div(3).floor()////.softcap(10,0.75,0)
             tmp.radiation.bs.bonus_lvl[3*x+y] = RADIATION.getbonusLevel(3*x+y)
         }
         for (let y = 0; y < 2; y++) [tmp.radiation.bs.cost[2*x+y],tmp.radiation.bs.bulk[2*x+y]] = RADIATION.getBoostData(2*x+y)

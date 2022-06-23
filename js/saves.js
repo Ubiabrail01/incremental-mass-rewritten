@@ -13,7 +13,7 @@ Decimal.prototype.modular=Decimal.prototype.mod=function (other){
     return this.sub(this.div(other).floor().mul(other));
 };
 
-Decimal.prototype.softcap = function (start, power, mode) {
+Decimal.prototype = function (start, power, mode) {
     var x = this.clone()
     if (x.gte(start)) {
         if ([0, "pow"].includes(mode)) x = x.div(start).pow(power).mul(start)
@@ -63,7 +63,7 @@ Decimal.prototype.formatGain = function (gain, mass=false) { return formatGain(t
 
 function softcapHTML(x, start) { return E(x).gte(start)?` <span class='soft'>(softcapped)</span>`:"" }
 
-Decimal.prototype.softcapHTML = function (start) { return softcapHTML(this.clone(), start) }
+Decimal.prototype//.softcapHTML = function (start) { return softcapHTML(this.clone(), start) }
 
 function calc(dt, dt_offline) {
     let du_gs = tmp.preQUGlobalSpeed.mul(dt)
