@@ -1,0 +1,7 @@
+TO-DO LIST:
+1: Upgrades
+	1a. [M]   Primordiums boost itself
+	1b. [S]   Weaken Ar-18 softcap
+	1c. [O]   Polarizer weakens: Supernovae, Fermion Tiers, Radiation
+	1d. [O]   Primordiums have a minimum amount
+	1e. [O]   Bank a constant amount
