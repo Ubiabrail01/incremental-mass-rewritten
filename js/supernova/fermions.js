@@ -88,7 +88,7 @@ const FERMIONS = {
                     return FERMIONS.getTierScaling(x, true)
                 },
                 eff(i, t) {
-                    let x = E(1e5).pow(i.add(1).log10().mul(t)).softcap("ee3",0.9,2)
+                    let x = E(1e5).pow(i.add(1).log10().mul(t))//.softcap("ee3",0.9,2)
                     return x
                 },
                 desc(x) {
@@ -108,7 +108,7 @@ const FERMIONS = {
                     return FERMIONS.getTierScaling(x, true)
                 },
                 eff(i, t) {
-                    let x = i.add(1).log10().pow(1.75).mul(t.pow(0.8)).div(100).add(1).softcap(5,0.75,0).softcap(449,0.25,0)
+                    let x = i.add(1).log10().pow(1.75).mul(t.pow(0.8)).div(100).add(1)//.softcap(5,0.75,0)//.softcap(449,0.25,0)
                     return x
                 },
                 desc(x) {
@@ -135,7 +135,7 @@ const FERMIONS = {
                     return FERMIONS.getTierScaling(x, true)
                 },
                 eff(i, t) {
-                    let x = i.max(1).log10().add(1).mul(t).pow(0.9).div(100).add(1).softcap(1.5,0.5,0).softcap(5,1/3,0).min(6.5)
+                    let x = i.max(1).log10().add(1).mul(t).pow(0.9).div(100).add(1)//.softcap(1.5,0.5,0)//.softcap(5,1/3,0).min(6.5)
                     return x
                 },
                 desc(x) {
@@ -161,7 +161,7 @@ const FERMIONS = {
                 },
                 eff(i, t) {
                     let x = i.add(1).log10().div(500).mul(t.root(2)).add(1)
-                    return x.softcap(1.15,0.5,0).softcap(1.8,1/3,0).min(2)
+                    return x//.softcap(1.15,0.5,0)//.softcap(1.8,1/3,0).min(2)
                 },
                 desc(x) {
                     return `Radiation Boosters are ${format(x)}x cheaper`+(x.gte(1.15)?" <span class='soft'>(softcapped)</span>":"")
@@ -215,7 +215,7 @@ const FERMIONS = {
                     return FERMIONS.getTierScaling(x, true)
                 },
                 eff(i, t) {
-                    let x = i.add(1).log10().mul(t).div(100).add(1).softcap(1.5,hasTree("fn5")?0.75:0.25,0)
+                    let x = i.add(1).log10().mul(t).div(100).add(1)//.softcap(1.5,hasTree("fn5")?0.75:0.25,0)
                     if (hasTree("fn10")) x = x.pow(4.5)
                     return x
                 },
@@ -236,7 +236,7 @@ const FERMIONS = {
                     return FERMIONS.getTierScaling(x, true)
                 },
                 eff(i, t) {
-                    let x = t.pow(1.5).add(1).pow(i.add(1).log10().softcap(10,0.75,0)).softcap(1e6,0.75,0)
+                    let x = t.pow(1.5).add(1).pow(i.add(1).log10())//.softcap(1e6,0.75,0)
                     return x
                 },
                 desc(x) {
@@ -283,7 +283,7 @@ const FERMIONS = {
                     return FERMIONS.getTierScaling(x, true)
                 },
                 eff(i, t) {
-                    let x = i.max(1).log10().add(1).mul(t).div(200).add(1).softcap(1.5,0.5,0)
+                    let x = i.max(1).log10().add(1).mul(t).div(200).add(1)//.softcap(1.5,0.5,0)
                     return x
                 },
                 desc(x) {
@@ -308,7 +308,7 @@ const FERMIONS = {
                     return FERMIONS.getTierScaling(x, true)
                 },
                 eff(i, t) {
-                    let x = E(0.95).pow(i.add(1).log10().mul(t).root(4).softcap(27,0.5,0)).max(2/3).toNumber()
+                    let x = E(0.95).pow(i.add(1).log10().mul(t).root(4)).max(2/3).toNumber()
                     return x
                 },
                 desc(x) {

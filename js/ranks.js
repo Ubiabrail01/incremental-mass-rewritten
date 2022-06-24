@@ -134,11 +134,11 @@ const RANKS = {
                 return ret
             },
             '380'() {
-                let ret = E(10).pow(player.ranks.rank.sub(379).pow(1.5).pow(player.ranks.tier.gte(55)?RANKS.effect.tier[55]():1).softcap(1000,0.5,0))
+                let ret = E(10).pow(player.ranks.rank.sub(379).pow(1.5).pow(player.ranks.tier.gte(55)?RANKS.effect.tier[55]():1))
                 return ret
             },
             '800'() {
-                let ret = E(1).sub(player.ranks.rank.sub(799).mul(0.0025).add(1).softcap(1.25,0.5,0).sub(1)).max(0.75)
+                let ret = E(1).sub(player.ranks.rank.sub(799).mul(0.0025).add(1)).max(0.75)
                 return ret
             },
         },
@@ -146,7 +146,7 @@ const RANKS = {
             '4'() {
                 let ret = E(0)
                 if (player.ranks.tier.gte(12)) ret = player.ranks.tier.mul(0.1)
-                else ret = player.ranks.tier.mul(0.05).add(1).softcap(1.4,0.75,0).sub(1)
+                else ret = player.ranks.tier.mul(0.05).add(1)//.softcap(1.4,0.75,0).sub(1)
                 return ret
             },
             '6'() {
@@ -174,7 +174,7 @@ const RANKS = {
                 return ret
             },
             '5'() {
-                let ret = player.ranks.tetr.pow(4).softcap(1000,0.25,0)
+                let ret = player.ranks.tetr.pow(4)//.softcap(1000,0.25,0)
                 return ret
             },
         },

@@ -242,7 +242,8 @@ const CHALS = {
         pow: E(1.3),
         start: E(1.5e58),
         effect(x) {
-            let rank = x.softcap(20,4,1).floor()
+            // let rank = x//.softcap(20,4,1).floor()
+            let rank = x.floor()
             let tick = E(0.96).pow(x.root(2))
             return {rank: rank, tick: tick}
         },
@@ -261,7 +262,7 @@ const CHALS = {
             let sp = E(0.5)
             if (hasElement(8)) sp = sp.pow(0.25)
             if (hasElement(39)) sp = E(1)
-            let ret = x.mul(0.075).add(1).softcap(1.3,sp,0).sub(1)
+            let ret = x.mul(0.075).add(1).sub(1)
             return ret
         },
         effDesc(x) { return "+"+format(x.mul(100))+"%"+(x.gte(0.3)?" <span class='soft'>(softcapped)</span>":"") },
@@ -278,7 +279,7 @@ const CHALS = {
         effect(x) {
             if (hasElement(64)) x = x.mul(1.5)
             let ret = x.root(1.5).mul(0.01).add(1)
-            return ret.softcap(3,0.25,0)
+            return ret
         },
         effDesc(x) { return "^"+format(x)+(x.gte(3)?" <span class='soft'>(softcapped)</span>":"") },
     },
@@ -294,7 +295,7 @@ const CHALS = {
         effect(x) {
             if (hasElement(64)) x = x.mul(1.5)
             let ret = x.root(1.5).mul(0.01).add(1)
-            return ret.softcap(3,0.25,0)
+            return ret
         },
         effDesc(x) { return "^"+format(x)+(x.gte(3)?" <span class='soft'>(softcapped)</span>":"") },
     },
@@ -308,7 +309,7 @@ const CHALS = {
         pow: E(1.25),
         start: E(1.5e136),
         effect(x) {
-            let ret = E(0.97).pow(x.root(2).softcap(5,0.5,0))
+            let ret = E(0.97).pow(x.root(2))
             return ret
         },
         effDesc(x) { return format(E(1).sub(x).mul(100))+"% weaker"+(x.log(0.97).gte(5)?" <span class='soft'>(softcapped)</span>":"") },
@@ -323,7 +324,7 @@ const CHALS = {
         pow: E(1.25),
         start: E(1.989e38),
         effect(x) {
-            let ret = x.mul(0.1).add(1).softcap(1.5,hasElement(39)?1:0.5,0).sub(1)
+            let ret = x.mul(0.1).add(1).sub(1)
             return ret
         },
         effDesc(x) { return "+"+format(x)+"x"+(x.gte(0.5)?" <span class='soft'>(softcapped)</span>":"") },
@@ -356,7 +357,7 @@ const CHALS = {
         effect(x) {
             if (hasElement(64)) x = x.mul(1.5)
             let ret = x.root(1.75).mul(0.02).add(1)
-            return ret.softcap(2.3,0.25,0)
+            return ret
         },
         effDesc(x) { return "^"+format(x)+(x.gte(2.3)?" <span class='soft'>(softcapped)</span>":"") },
     },

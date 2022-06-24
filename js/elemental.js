@@ -196,7 +196,7 @@ const ELEMENTS = {
             desc: `Hardened Challenge scaling weaker for each element bought.`,
             cost: E(1e85),
             effect() {
-                let x = E(0.99).pow(E(player.atom.elements.length).softcap(30,2/3,0)).max(0.5)
+                let x = E(0.99).pow(E(player.atom.elements.length)).max(0.5)
                 return x
             },
             effDesc(x) { return format(E(1).sub(x).mul(100))+"% weaker" },
@@ -260,7 +260,7 @@ const ELEMENTS = {
             desc: `Super Tier scale weaker based on Tetr.`,
             cost: E(1e245),
             effect() {
-                let x = E(0.9).pow(player.ranks.tetr.softcap(6,0.5,0))
+                let x = E(0.9).pow(player.ranks.tetr)
                 return x
             },
             effDesc(x) { return format(E(1).sub(x).mul(100))+"% weaker" },
@@ -443,7 +443,7 @@ const ELEMENTS = {
             cost: E('e1.7e6'),
             effect() {
                 let x = player.stars.points.add(1)
-                return x.softcap('e3e15',0.85,2)
+                return x
             },
             effDesc(x) { return format(x)+"x" },
         },
