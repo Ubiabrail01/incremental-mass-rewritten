@@ -57,6 +57,7 @@ const FORMS = {
         if (QCs.active()) x = x.pow(tmp.qu.qc_eff[4])
 
         if (CHALS.inChal(9) || FERMIONS.onActive("12")) x = expMult(x,0.9)
+        for (let z = 0; z < player.supernova.times; z++) x=x.mul(1.1)
         return x.softcap(tmp.massSoftGain,tmp.massSoftPower,0)
         .softcap(tmp.massSoftGain2,tmp.massSoftPower2,0)
         .softcap(tmp.massSoftGain3,tmp.massSoftPower3,0)

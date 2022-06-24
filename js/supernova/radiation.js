@@ -7,6 +7,7 @@ const RADIATION = {
         if (hasTree('rad1')) x = x.mul(tmp.supernova.tree_eff.rad1||1)
         if (player.ranks.pent.gte(2)) x = x.mul(RANKS.effect.pent[2]())
         if (QCs.active()) x = x.pow(tmp.qu.qc_eff[3])
+        for (let z = 0; z < player.supernova.times; z++) x=x.mul(1.1)
         return x
     },
     hz_effect() {
@@ -25,6 +26,7 @@ const RADIATION = {
         if (hasTree('rad5')) x = x.mul(tmp.supernova.tree_eff.rad5||1)
         x = x.mul(tmp.radiation.bs.eff[3*i])
         if (QCs.active()) x = x.pow(tmp.qu.qc_eff[3])
+        for (let z = 0; z < player.supernova.times; z++) x=x.mul(1.1)
         return x
     },
     ds_eff(i) {
