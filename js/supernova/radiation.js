@@ -9,6 +9,7 @@ const RADIATION = {
         if (hasTree('rad1')) x = x.mul(treeEff("rad1",1))
         if (hasElement(76)) x = x.mul(tmp.elements && tmp.elements.effect[76])
         x = x.mul(tmp.supernova.timeMult)
+        for (let z = 0; z < player.supernova.times; z++) x=x.mul(1.1)
         return x
     },
     hz_effect() {

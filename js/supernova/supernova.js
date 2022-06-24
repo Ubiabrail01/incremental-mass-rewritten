@@ -70,6 +70,8 @@ const SUPERNOVA = {
         x = x.mul(tmp.radiation.bs.eff[11])
         if (CHROMA.got("t4_1")) x = x.pow(CHROMA.eff("t4_1"))
         x = x.mul(tmp.supernova.timeMult)
+        
+        for (let z = 0; z < player.supernova.times; z++) x=x.mul(1.1)
         return x
     },
     req(x=player.supernova.times) {

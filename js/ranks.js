@@ -113,16 +113,16 @@ const RANKS = {
     effect: {
         rank: {
             '3'() {
-                let ret = E(player.massUpg[1]||0).div(20)
+                let ret = E(player.massUpg[1]||0).div(5)
                 return ret
             },
             '5'() {
-                let ret = E(player.massUpg[2]||0).div(40)
+                let ret = E(player.massUpg[2]||0).div(10)
                 return ret
             },
             '6'() {
                 let r = player.ranks.rank.add(1)
-                return r.pow(hasRank("rank", 17) ? r.root(3) : 2)
+                return r.pow(hasRank("rank", 17) ? r.root(2.5) : 2)
             },
             '40'() {
                 let ret = player.ranks.rank.root(2).div(100)

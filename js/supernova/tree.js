@@ -109,7 +109,7 @@ const TREE_UPGS = {
             reqDesc: `15 Supernovae.`,
             cost: E(1e8),
             effect() {
-                let x = player.supernova.times.mul(0.1).softcap(1.5,0.75,0)
+                let x = player.supernova.times.mul(0.1).softcap(3.0,1.5,0)
                 return x
             },
             effDesc(x) { return "+"+format(x)+getSoftcapHTML(x,1.5) },

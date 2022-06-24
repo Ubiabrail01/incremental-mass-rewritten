@@ -142,7 +142,7 @@ const FERMIONS = {
                 cons: "You are trapped in Mass Dilation, but they are twice effective",
                 isMass: true,
             },{
-                maxTier: 18,
+                maxTier: 1800,
                 nextTierAt(x) {
                     let t = FERMIONS.getTierScaling(x)
                     return E('e1000').pow(t.pow(FERMIONS.getScalingExp(1.5))).mul("e3e4")
@@ -211,8 +211,8 @@ const FERMIONS = {
         ],[
             {
                 maxTier() {
-                    let x = 15
-                    if (hasTree("fn5")) x += 35
+                    let x = 1500
+                    if (hasTree("fn5")) x += 3500
                     return x
                 },
                 nextTierAt(x) {
@@ -283,7 +283,7 @@ const FERMIONS = {
                 res: () => player.bh.dm,
                 cons: "You are trapped in Challenges 8-9",
             },{
-                maxTier: 15,
+                maxTier: 1500,
                 nextTierAt(x) {
                     let t = FERMIONS.getTierScaling(x)
                     return E('e400').pow(t.pow(FERMIONS.getScalingExp(1.5))).mul("e1600")
@@ -310,7 +310,7 @@ const FERMIONS = {
                 res: () => player.stars.points,
                 cons: "Star generators are decreased to ^0.5",
             },{
-                maxTier: 100,
+                maxTier: 10000,
                 nextTierAt(x) {
                     let t = FERMIONS.getTierScaling(x)
                     return E('e2e5').pow(t.pow(FERMIONS.getScalingExp(1.5))).mul("e1.5e6")
