@@ -170,7 +170,7 @@ const RANKS = {
         },
         tetr: {
             '2'() {
-                let ret = E(player.massUpg[3]||0).div(400)
+                let ret = E(player.massUpg[3]||0).div(40)
                 return ret
             },
             '4'() {
