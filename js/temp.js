@@ -1,29 +1,55 @@
 var tmp = {}
-var elm = {}
 
 function resetTemp() {
+    keep = [tmp.el, tmp.prevSave]
     tmp = {
         tree_time: 0,
 
+        cx: 0,
+        cy: 0,
+
         sn_tab: 0,
+        tree_tab: 0,
         tab: 0,
         stab: [],
+        qc_tab: 0,
+        qc_ch: -1,
         pass: true,
         notify: [],
         popup: [],
         saving: 0,
+        rank_tab: 0,
+
+        scaling_qc8: [],
+
+        prestiges: {
+            req: [],
+            bulk: [],
+            eff: [],
+        },
+
+        bd: {
+            upgs: [],
+        },
 
         upgs: {
             main: {},
             mass: {},
         },
 
+        elements: {
+            choosed: 0,
+            effect: [null],
+            cannot: [],
+        },
+    
         fermions: {
             ch: [0,0],
             gains: [E(0),E(0)],
             maxTier: [[],[]],
             tiers: [[],[]],
             effs:  [[],[]],
+            bonuses: [[],[]],
         },
     
         supernova: {
@@ -31,12 +57,12 @@ function resetTemp() {
             tree_choosed: "",
             tree_had: [],
             tree_had2: [],
+            auto_tree: [],
             tree_eff: {},
             tree_unlocked: {},
             tree_afford: {},
             tree_afford2: [],
         },
-		tree_tab: 0,
     
         radiation: {
             unl: false,
@@ -51,8 +77,33 @@ function resetTemp() {
                 eff: [],
             },
         },
-        ch: {}
+
+        qu: {
+            chroma_gain: [],
+            chroma_eff: [],
+            mil_reached: [],
+            qc_eff: [],
+        },
+
+        prim: {
+            eff: [],
+        },
+
+        en: {
+            gain: {},
+            eff: {},
+            rewards: [],
+            rewards_eff: [],
+            reward_br: [],
+        },
+
+        rip: {
+            
+        },
+
+        prevSave: "",
     }
+    for (let x = 0; x < PRES_LEN; x++) tmp.prestiges.eff[x] = {}
     for (let x = UPGS.mass.cols; x >= 1; x--) tmp.upgs.mass[x] = {}
     for (let x = 1; x <= UPGS.main.cols; x++) tmp.upgs.main[x] = {}
     for (let j = 0; j < TREE_TAB.length; j++) {
@@ -67,39 +118,43 @@ function resetTemp() {
                 if (id != "") {
                     tmp.supernova.tree_had2[j].push(id)
                     tmp.supernova.tree_had.push(id)
+                    if (!TREE_UPGS.ids[id].qf) tmp.supernova.auto_tree.push(id)
                 }
             }
         }
     }
-	SHORTCUT_EDIT = {
-		mode: 0,
-		pos: 0,
-		cur: 0
-	}
+    for (let x = 0; x < MASS_DILATION.break.upgs.ids.length; x++) tmp.bd.upgs[x] = {}
+    tmp.el = keep[0]
+    tmp.prevSave = keep[1]
 }
 
 resetTemp()
 
 function updateMassTemp() {
-    tmp.massSoftPower1 = FORMS.massSoftPower()
-    tmp.massSoftGain1 = FORMS.massSoftGain()
+    tmp.massSoftPower = FORMS.massSoftPower()
+    tmp.massSoftGain = FORMS.massSoftGain()
     tmp.massSoftPower2 = FORMS.massSoftPower2()
     tmp.massSoftGain2 = FORMS.massSoftGain2()
     tmp.massSoftPower3 = FORMS.massSoftPower3()
     tmp.massSoftGain3 = FORMS.massSoftGain3()
+    tmp.massSoftPower4 = FORMS.massSoftPower4()
+    tmp.massSoftGain4 = FORMS.massSoftGain4()
+    tmp.massSoftPower5 = FORMS.massSoftPower5()
+    tmp.massSoftGain5 = FORMS.massSoftGain5()
     tmp.massGain = FORMS.massGain()
 }
 
 function updateTickspeedTemp() {
+    tmp.tickspeedFP = tmp.fermions.effs[1][2]
+    tmp.tickspeedCost = E(2).pow(player.tickspeed.scaleEvery('tickspeed')).floor()
+    tmp.tickspeedBulk = E(0)
+    if (player.rp.points.gte(1)) tmp.tickspeedBulk = player.rp.points.max(1).log(2).scaleEvery('tickspeed',true).add(1).floor()
     tmp.tickspeedEffect = FORMS.tickspeed.effect()
+}
 
-	let scale = scalingInitPower("tickspeed")
-    tmp.tickspeedFP = tmp.upgs.fp.mul(tmp.fermions.effs[1][2])
-    if (scalingToned("tickspeed")) tmp.tickspeedFP = tmp.tickspeedFP.div(4/3)
-    tmp.tickspeedCost = E(2).pow(player.tickspeed.scaleEvery("tickspeed").pow(scale)).floor()
-    tmp.tickspeedBulk = player.rp.points.max(1).log(2).root(scale).scaleEvery("tickspeed", 1).add(1).floor()
-    if (player.rp.points.lt(1)) tmp.tickspeedBulk = E(0)
-
+function updateUpgradesTemp() {
+    UPGS.main.temp()
+    UPGS.mass.temp()
 }
 
 function updateRagePowerTemp() {
@@ -109,10 +164,12 @@ function updateRagePowerTemp() {
 }
 
 function updateBlackHoleTemp() {
-    let t = tmp.bh || {}
-	tmp.bh = t
-
+    if (!tmp.bh) tmp.bh = {}
+    let t = tmp.bh
     t.dm_gain = FORMS.bh.DM_gain()
+    t.fSoftStart = FORMS.bh.fSoftStart()
+    t.fSoftPower = FORMS.bh.fSoftPower()
+    t.f = FORMS.bh.f()
     t.massSoftPower = FORMS.bh.massSoftPower()
     t.massSoftGain = FORMS.bh.massSoftGain()
     t.massPowerGain = FORMS.bh.massPowerGain()
@@ -120,52 +177,38 @@ function updateBlackHoleTemp() {
     t.dm_can = t.dm_gain.gte(1)
     t.effect = FORMS.bh.effect()
 
-	let scale = scalingInitPower("bh_condenser")
-    t.condenser_bonus = FORMS.bh.condenser.bonus()
-    t.condenser_cost = E(1.75).pow(player.bh.condenser.scaleEvery("bh_condenser").pow(scale)).floor()
-    t.condenser_bulk = player.bh.dm.max(1).log(1.75).root(scale).scaleEvery("bh_condenser", 1).add(1).floor()
-    if (player.bh.dm.lt(1)) t.condenser_bulk = E(0)
-    t.condenser_eff = FORMS.bh.condenser.effect()
+    let fp = tmp.fermions.effs[1][5]
 
-	t.rad_ss = FORMS.bh.radSoftStart()
+    t.condenser_bonus = FORMS.bh.condenser.bonus()
+    t.condenser_cost = E(1.75).pow(player.bh.condenser.scaleEvery('bh_condenser',false,[1,1,1,fp])).floor()
+    t.condenser_bulk = E(0)
+    if (player.bh.dm.gte(1)) t.condenser_bulk = player.bh.dm.max(1).log(1.75).scaleEvery('bh_condenser',true,[1,1,1,fp]).add(1).floor()
+    t.condenser_eff = FORMS.bh.condenser.effect()
 }
 
 function updateTemp() {
-	//Offline
-	tmp.offlineActive = player.offline.time > 1
-	tmp.offlineMult = tmp.offlineActive?player.offline.time+1:1
+    tmp.offlineActive = player.offline.time > 1
+    tmp.offlineMult = tmp.offlineActive?player.offline.time+1:1
 
-	//Tab Forcing
-	if (zeta() && tmp.stab[0] < 4) tmp.stab[0] = 4
-	if (!zeta() && tmp.stab[0] == 4) tmp.stab[0] = 0
-	if (player.ext.toned == 5) tmp.stab[1] = 0
+    updateQuantumTemp()
 
-	//Exotic
-	updatePrimTemp()
-	updateChromaTemp()
-	updateAxionTemp()
-	updatePolarizeTemp()
-	updateExtraBuildingTemp()
+    updateRadiationTemp()
+    updateFermionsTemp()
+    updateBosonsTemp()
+    updateSupernovaTemp()
 
-	//Supernova
-	updateRadiationTemp()
-	updateFermionsTemp()
-	updateBosonsTemp()
-	updateSupernovaTemp()
+    updateElementsTemp()
+    updateMDTemp()
+    updateStarsTemp()
+    updateUpgradesTemp()
+    updateScalingTemp()
+    updateChalTemp()
+    updateAtomTemp()
+    updateRagePowerTemp()
+    updateBlackHoleTemp()
+    updateTickspeedTemp()
+    updateRanksTemp()
+    updateMassTemp()
 
-	//Atoms
-	updateElementsTemp()
-	updateMDTemp()
-	updateStarsTemp()
-	updateUpgradesTemp()
-	updateScalingTemp()
-	updateChalTemp()
-	updateAtomTemp()
-
-	//Pre-Atom
-	updateRagePowerTemp()
-	updateBlackHoleTemp()
-	updateTickspeedTemp()
-	updateRanksTemp()
-	updateMassTemp()
+    tmp.preQUGlobalSpeed = FORMS.getPreQUGlobalSpeed()
 }

@@ -20,18 +20,18 @@ const QCs = {
     ctn: [
         {
             eff(i) {
-                return [1-0.01*i,10/(i+1)]
+                return [1-0.01*i,4/(i+1)]
             },
             effDesc(x) { return `^${format(x[0])} to exponent from All-Stars resources.<br>^${format(x[1])} to strength of star generators.` },
         },{
             eff(i) {
-                let x = E(1.5).pow(i**1.5)
+                let x = E(1.5).pow(i**2)
                 return x
             },
             effDesc(x) { return `/${format(x,0)} to pre-Quantum global speed.` },
         },{
             eff(i) {
-                let x = i**1.3*0.015+1
+                let x = i**1.4*0.05+1
                 return x
             },
             effDesc(x) { return `x${format(x)} to requirements of any Fermions.` },
