@@ -11,6 +11,7 @@ const CHROMA = {
         if (tmp.qu.mil_reached[5]) x = x.mul(tmp.preQUGlobalSpeed.root(2))
         if (hasTree('qu5')) x = x.mul(tmp.supernova.tree_eff.qu5)
         if (hasTree('qu8')) x = x.mul(tmp.supernova.tree_eff.qu8)
+        for (let z = 0; z < player.supernova.times; z++) x=x.mul(1.1)
         return x
     },
     names: [

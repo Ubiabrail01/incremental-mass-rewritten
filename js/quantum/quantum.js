@@ -11,6 +11,7 @@ const QUANTUM = {
         if (hasTree("qf2")) x = x.mul(treeEff("qf2"))
         if (hasTree("qf3")) x = x.mul(treeEff("qf3"))
         if (hasPrestige(0,2)) x = x.mul(4)
+        x=x.mul(1.1.pow(player.supernova.times))
         return x.floor()
     },
     gainTimes() {

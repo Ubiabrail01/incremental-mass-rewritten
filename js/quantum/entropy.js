@@ -90,7 +90,7 @@ const ENTROPY = {
             inc: E(2),
 
             eff(i) {
-                let x = i.div(QCs.active()?100:5).softcap(2,0.5,0)
+                let x = i.div(QCs.active()?100:5)//.softcap(2,0.5,0)
                 let y = tmp.tickspeedEffect?tmp.tickspeedEffect.step.pow(x):E(1)
                 return [x,y]
             },

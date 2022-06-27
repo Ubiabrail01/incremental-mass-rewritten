@@ -1,34 +1,32 @@
 const RANKS = {
     names: ['rank', 'tier', 'tetr', 'pent'],
     fullNames: ['Rank', 'Tier', 'Tetr', 'Pent'],
+	resetDescs: ['mass and upgrades', 'Rank', 'Tier', 'Tetr'],
+	mustReset(type) {
+		if (type == "rank" && hasUpgrade('rp',4)) return false
+		if (type == "tier" && hasUpgrade('bh',4)) return false
+		if (type == "tetr" && hasTree("qol5")) return false
+		if (type == "pent") return false
+		return true
+	},
     reset(type) {
         if (tmp.ranks[type].can) {
             player.ranks[type] = player.ranks[type].add(1)
-            let reset = true
-            if (type == "rank" && player.mainUpg.rp.includes(4)) reset = false
-            if (type == "tier" && player.mainUpg.bh.includes(4)) reset = false
-            if (type == "tetr" && hasTree("qol5")) reset = false
-            if (type == "pent" && hasTree("qol8")) reset = false
-            if (reset) this.doReset[type]()
+            if (this.mustReset(type)) this.doReset[type]()
             updateRanksTemp()
         }
     },
     bulk(type) {
         if (tmp.ranks[type].can) {
             player.ranks[type] = player.ranks[type].max(tmp.ranks[type].bulk.max(player.ranks[type].add(1)))
-            let reset = true
-            if (type == "rank" && player.mainUpg.rp.includes(4)) reset = false
-            if (type == "tier" && player.mainUpg.bh.includes(4)) reset = false
-            if (type == "tetr" && hasTree("qol5")) reset = false
-            if (type == "pent" && hasTree("qol8")) reset = false
-            if (reset) this.doReset[type]()
+            if (this.mustReset(type)) this.doReset[type]()
             updateRanksTemp()
         }
     },
     unl: {
-        tier() { return player.ranks.rank.gte(3) || player.ranks.tier.gte(1) || player.mainUpg.atom.includes(3) || tmp.radiation.unl },
-        tetr() { return player.mainUpg.atom.includes(3) || tmp.radiation.unl },
-        pent() { return tmp.radiation.unl },
+        tier() { return hasRank("rank", 3) || hasRank("tier", 1) || hasUpgrade('atom',3) },
+        tetr() { return hasUpgrade('atom',3) },
+        pent() { return hasTree("sn5") },
     },
     doReset: {
         rank() {
@@ -50,18 +48,19 @@ const RANKS = {
     },
     autoSwitch(rn) { player.auto_ranks[rn] = !player.auto_ranks[rn] },
     autoUnl: {
-        rank() { return player.mainUpg.rp.includes(5) },
-        tier() { return player.mainUpg.rp.includes(6) },
-        tetr() { return player.mainUpg.atom.includes(5) },
-        pent() { return hasTree("qol8") },
+        rank() { return hasUpgrade('rp',5) },
+        tier() { return hasUpgrade('rp',6) },
+        tetr() { return hasUpgrade('atom',5) },
+        pent() { return true },
     },
     desc: {
         rank: {
-            '1': "unlock mass upgrade 1.",
-            '2': "unlock mass upgrade 2, reduce mass upgrade 1 cost scaled by 20%.",
-            '3': "unlock mass upgrade 3, reduce mass upgrade 2 cost scaled by 20%, mass upgrade 1 boosts itself.",
-            '4': "reduce mass upgrade 3 cost scale by 20%.",
+            '1': "unlock Mass Upgrades.",
+            '2': "unlock Mass Upgrade 2 and weaken Mass Upgrade 1 by 20%.",
+            '3': "unlock Mass Upgrade 3, weaken Mass Upgrade 2 by 20%, and Mass Upgrade 1 boosts itself.",
+            '4': "weaken Mass Upgrade 3 by 20%.",
             '5': "mass upgrade 2 boosts itself.",
+<<<<<<< HEAD
             '6': "make mass gain is boosted by (x+1)^2, where x is rank.",
             '13': "triple mass gain.",
             '14': "double Rage Powers gain.",
@@ -75,14 +74,29 @@ const RANKS = {
             '300': "rank multiplie quark gain.",
             '380': "rank multiplie mass gain.",
             '800': "make mass gain softcap 0.5% weaker based on rank.",
+=======
+            '6': "Ranks boost mass gain.",
+            '13': "triple mass.",
+            '14': "double Rage Power.",
+            '17': "strengthen Rank 6.",
+            '34': "mass upgrade 3 softcap scales 1.2x later.",
+            '40': "Rank adds Tickspeed Power.",
+            '45': "Rank boosts Rage Power.",
+            '90': "strengthen Rank 40.",
+            '180': "raise mass by ^1.025.",
+            '220': "Rank 40 is overpowered.",
+            '300': "Rank boosts Quarks.",
+            '380': "Rank boosts mass.",
+            '800': "make mass gain softcap 0.25% weaker based on rank.",
+>>>>>>> 4fd55f51fdbcf0b366018d68122f0cb6c17fd252
         },
         tier: {
             '1': "reduce rank reqirements by 20%.",
             '2': "raise mass gain by 1.15",
             '3': "reduce all mass upgrades cost scale by 20%.",
             '4': "adds +5% tickspeed power for every tier you have, softcaps at +40%.",
-            '6': "make rage powers boosted by tiers.",
-            '8': "make tier 6's reward effect stronger by dark matters.",
+            '6': "make Rage Power boosted by tiers.",
+            '8': "make tier 6's reward effect stronger by Dark Matter.",
             '12': "make tier 4's reward effect twice effective and remove softcap.",
             '30': "stronger effect's softcap is 10% weaker.",
             '55': "make rank 380's effect stronger based on tier.",
@@ -93,21 +107,29 @@ const RANKS = {
             '2': "mass upgrade 3 boosts itself.",
             '3': "raise tickspeed effect by 1.05.",
             '4': "Super Rank scale weaker based on Tier, Super Tier scale 20% weaker.",
-            '5': "Hyper/Ultra Tickspeed starts later based on tetr.",
+            '5': "Hyper/Ultra Tickspeed scales later based on tetr.",
             '8': "Mass gain softcap^2 starts ^1.5 later.",
+            '18': "Meta-Tickspeed scales later based on Tiers.",
         },
         pent: {
-            '1': "reduce tetr reqirements by 15%, make Meta-Rank starts 1.1x later.",
-            '2': "tetr boost all radiations gain.",
-            '4': "Meta-Tickspeeds start later based on Supernovas.",
-            '5': "Meta-Ranks start later based on Pent.",
-            '8': "Mass gain softcap^4 starts later based on Pent.",
-            '15': "remove 3rd softcap of Stronger's effect.",
+            '1': "Pent raises star effect.",
+            '2': "Supernovae makes Super Tetr scales later.",
+            '4': "Pent weakens Meta-Rank and Super Tier.",
+            '5': "weaken Meta-Tickspeed based on its start.",
+            '6': "double Pent 5.",
+            '10': "Stronger and Pent raise Musculer and Booster.",
+            '13': "Pent raises Pent 1.",
+            '50': "Tickspeed Power raises BH Condenser Power.",
+            '75': "reduce MD Upgrade 6 softcap.",
+            '200': "Mass reduces Stronger softcap.",
+            '1000': "Mass upgrade 1-2 self-boosts multiply themselves.",
+            '2000': "Tickspeed Power multiplies Stronger.",
         },
     },
     effect: {
         rank: {
             '3'() {
+<<<<<<< HEAD
                 let ret = E(player.massUpg[1]||0).div(2)
                 return ret
             },
@@ -118,11 +140,23 @@ const RANKS = {
             '6'() {
                 let ret = player.ranks.rank.add(3).pow(player.ranks.rank.gte(17)?player.ranks.rank.add(1).root(2):2)
                 return ret
+=======
+                let ret = E(player.massUpg[1]||0).div(5)
+                return ret
+            },
+            '5'() {
+                let ret = E(player.massUpg[2]||0).div(10)
+                return ret
+            },
+            '6'() {
+                let r = player.ranks.rank.add(1)
+                return r.pow(hasRank("rank", 17) ? r.root(2.5) : 2)
+>>>>>>> 4fd55f51fdbcf0b366018d68122f0cb6c17fd252
             },
             '40'() {
                 let ret = player.ranks.rank.root(2).div(100)
-                if (player.ranks.rank.gte(90)) ret = player.ranks.rank.root(1.6).div(100)
-                if (player.ranks.rank.gte(220)) ret = player.ranks.rank.div(100)
+                if (hasRank("rank", 90)) ret = player.ranks.rank.root(1.6).div(100)
+                if (hasRank("rank", 220)) ret = player.ranks.rank.div(100)
                 return ret
             },
             '45'() {
@@ -134,7 +168,7 @@ const RANKS = {
                 return ret
             },
             '380'() {
-                let ret = E(10).pow(player.ranks.rank.sub(379).pow(1.5).pow(player.ranks.tier.gte(55)?RANKS.effect.tier[55]():1).softcap(1000,0.5,0))
+                let ret = E(10).pow(player.ranks.rank.sub(379).pow(1.5).pow(hasRank("tier", 55)?RANKS.effect.tier[55]():1).softcap(1000,0.5,0))
                 return ret
             },
             '800'() {
@@ -145,13 +179,13 @@ const RANKS = {
         tier: {
             '4'() {
                 let ret = E(0)
-                if (player.ranks.tier.gte(12)) ret = player.ranks.tier.mul(0.1)
+                if (hasRank("tier", 12)) ret = player.ranks.tier.mul(0.1)
                 else ret = player.ranks.tier.mul(0.05).add(1).softcap(1.4,0.75,0).sub(1)
                 return ret
             },
             '6'() {
                 let ret = E(2).pow(player.ranks.tier)
-                if (player.ranks.tier.gte(8)) ret = ret.pow(RANKS.effect.tier[8]())
+                if (hasRank("tier", 8)) ret = ret.pow(RANKS.effect.tier[8]())
                 return ret
             },
             '8'() {
@@ -165,8 +199,12 @@ const RANKS = {
         },
         tetr: {
             '2'() {
+<<<<<<< HEAD
                 let ret = E(player.massUpg[3]||0).div(20)
                 if (ret.gte(1) && hasPrestige(0,15)) ret = ret.pow(1.5)
+=======
+                let ret = E(player.massUpg[3]||0).div(40)
+>>>>>>> 4fd55f51fdbcf0b366018d68122f0cb6c17fd252
                 return ret
             },
             '4'() {
@@ -177,25 +215,53 @@ const RANKS = {
                 let ret = player.ranks.tetr.pow(4).softcap(1000,0.25,0)
                 return ret
             },
-        },
-        pent: {
-            '2'() {
-                let ret = E(1.3).pow(player.ranks.tetr)
-                return ret
-            },
-            '4'() {
-                let ret = player.supernova.times.add(1).root(5)
-                return ret
-            },
-            '5'() {
-                let ret = E(1.05).pow(player.ranks.pent)
-                return ret
-            },
-            '8'() {
-                let ret = E(1.1).pow(player.ranks.pent)
+            '18'() {
+                let ret = player.ranks.tier.div(20000).add(1).pow(player.ranks.tier.sqrt()).softcap(2,4,3)
                 return ret
             },
         },
+		pent: {
+			'1'(p) {
+				if (!p) p = player.ranks.pent.mul(STARS.rankStr())
+				let exp = E(0.8)
+				if (hasRank("pent", 13)) exp = RANKS.effect.pent[13]()
+				return p.pow(exp).div(40).add(1)
+			},
+			'2'() {
+				let ret = player.supernova.times.pow(1.5).div(200)
+				return ret
+			},
+			'4'() {
+				let ret = E(1).div(player.ranks.pent.sub(2).log2())
+				return ret
+			},
+			'5'() {
+				let ret = E(3e5).div(getScalingStart("meta", "tickspeed"))
+				if (hasRank("pent", 6)) ret = ret.div(2)
+				return ret.min(1)
+			},
+			'10'() {
+				let ret = tmp.upgs.mass[3]?tmp.upgs.mass[3].eff.eff:E(1)
+				ret = ret.times(player.ranks.pent.softcap(20,4,3).div(100))
+				return ret
+			},
+			'13'() {
+				let ret = player.ranks.pent.add(6).div(18).sqrt().softcap(1.5,0.2,0)
+				return ret.min(1.5)
+			},
+			'50'() {
+				if (!tmp.tickspeedEffect) return E(1)
+				let ts = tmp.tickspeedEffect.step.log10().div(1e3)
+				return ts.add(1)
+			},
+			'1000'() {
+				return player.ranks.pent.div(1e3).log10().div(4).min(1)
+			},
+			'2000'() {
+				if (!tmp.tickspeedEffect) return E(1)
+				return tmp.tickspeedEffect.step.log10().div(2e5).add(1).pow(27/20)
+			},
+		},
     },
     effDesc: {
         rank: {
@@ -218,31 +284,50 @@ const RANKS = {
             2(x) { return "+"+format(x) },
             4(x) { return format(E(1).sub(x).mul(100))+"% weaker" },
             5(x) { return "+"+format(x,0)+" later" },
+            18(x) { return format(x)+"x" },
         },
         pent: {
-            2(x) { return format(x)+"x" },
-            4(x) { return format(x)+"x later" },
-            5(x) { return format(x)+"x later" },
-            8(x) { return "^"+format(x)+" later" },
+            1(x) { return "^"+format(x) },
+            2(x) { return "+"+format(x,0)+" later" },
+            4(x) { return format(E(1).sub(x).mul(100))+"% weaker" },
+            5(x) { return format(E(1).div(x))+"x weaker" },
+            10(x) { return "^"+format(x) },
+            13(x) { return "^"+format(x,3) },
+            50(x) { return "^"+format(x) },
+            1000(x) { return "^"+format(x,3)+" from Pent" },
+            2000(x) { return format(x)+"x" },
         },
     },
     fp: {
         rank() {
             let f = E(1)
-            if (player.ranks.tier.gte(1)) f = f.mul(1/0.8)
+            if (scalingToned("rank")) f = f.mul(2)
+            if (hasRank("tier", 1)) f = f.mul(1/0.8)
             f = f.mul(tmp.chal.eff[5].pow(-1))
             return f
         },
         tier() {
             let f = E(1)
-            f = f.mul(tmp.fermions.effs[1][3])
-            if (player.ranks.tetr.gte(1)) f = f.mul(1/0.75)
-            if (player.mainUpg.atom.includes(10)) f = f.mul(2)
+            if (!CHROMA.got("t5_1")) f = f.mul(tmp.fermions.effs[1][3])
+            if (hasRank("tetr", 1)) f = f.mul(1/0.75)
+            if (hasUpgrade('atom',10)) f = f.mul(2)
+            return f
+        },
+        tetr() {
+            let f = E(1)
+			if (hasElement(9)) f = f.mul(1/0.85)
+            return f
+        },
+        pent() {
+            let f = E(5/6)
+            if (AXION.unl()) f = f.mul(tmp.ax.eff[15].div)
+            if (hasElement(81)) f = f.div(0.88)
             return f
         },
     },
 }
 
+<<<<<<< HEAD
 const PRESTIGES = {
     fullNames: ["Prestige Level", "Honor"],
     baseExponent() {
@@ -378,120 +463,47 @@ const PRESTIGES = {
             updateRanksTemp()
         }
     },
+=======
+function hasRank(t, x) {
+	return player.ranks[t].gte(x)
+>>>>>>> 4fd55f51fdbcf0b366018d68122f0cb6c17fd252
 }
-
-const PRES_LEN = PRESTIGES.fullNames.length
-
-function hasPrestige(x,y) { return player.prestiges[x].gte(y) }
-
-function prestigeEff(x,y,def=E(1)) { return tmp.prestiges.eff[x][y] || def }
 
 function updateRanksTemp() {
-    if (!tmp.ranks) tmp.ranks = {}
-    for (let x = 0; x < RANKS.names.length; x++) if (!tmp.ranks[RANKS.names[x]]) tmp.ranks[RANKS.names[x]] = {}
-    let fp2 = tmp.qu.chroma_eff[1]
-    let fp = RANKS.fp.rank()
-    tmp.ranks.rank.req = E(10).pow(player.ranks.rank.div(fp2).scaleEvery('rank').div(fp).pow(1.15)).mul(10)
-    tmp.ranks.rank.bulk = E(0)
-    if (player.mass.gte(10)) tmp.ranks.rank.bulk = player.mass.div(10).max(1).log10().root(1.15).mul(fp).scaleEvery('rank',true).mul(fp2).add(1).floor();
-    tmp.ranks.rank.can = player.mass.gte(tmp.ranks.rank.req) && !CHALS.inChal(5) && !CHALS.inChal(10) && !FERMIONS.onActive("03")
+	let d = tmp.ranks || {}
+	let s = player.ranks
+	let u = RANKS
+    tmp.ranks = d
 
-    fp = RANKS.fp.tier()
-    tmp.ranks.tier.req = player.ranks.tier.div(fp2).scaleEvery('tier').div(fp).add(2).pow(2).floor()
-    tmp.ranks.tier.bulk = player.ranks.rank.max(0).root(2).sub(2).mul(fp).scaleEvery('tier',true).mul(fp2).add(1).floor();
+    for (let x = 0; x < u.names.length; x++) if (!tmp.ranks[u.names[x]]) tmp.ranks[u.names[x]] = {}
 
-    fp = E(1)
-    let pow = 2
-    if (hasElement(44)) pow = 1.75
-    if (hasElement(9)) fp = fp.mul(1/0.85)
-    if (player.ranks.pent.gte(1)) fp = fp.mul(1/0.85)
-    if (hasElement(72)) fp = fp.mul(1/0.85)
-    tmp.ranks.tetr.req = player.ranks.tetr.div(fp2).scaleEvery('tetr').div(fp).pow(pow).mul(3).add(10).floor()
-    tmp.ranks.tetr.bulk = player.ranks.tier.sub(10).div(3).max(0).root(pow).mul(fp).scaleEvery('tetr',true).mul(fp2).add(1).floor();
+    let fp = u.fp.rank()
+    let pow = scalingInitPower("rank")
+    d.rank.req = E(10).pow(s.rank.scaleEvery("rank").div(fp).pow(pow)).mul(10)
+    d.rank.bulk = player.mass.div(10).max(1).log10().root(pow).mul(fp).scaleEvery("rank", 1).add(1).floor();
+    if (FERMIONS.onActive(14)) d.rank.bulk = E(2e4).min(d.rank.bulk)
+    if (player.mass.lt(10)) d.rank.bulk = 0
+    d.rank.can = player.mass.gte(d.rank.req) && !CHALS.inChal(5) && !CHALS.inChal(10) && !FERMIONS.onActive("03") && (!FERMIONS.onActive(14) || s.rank.lt(2e4))
 
-    fp = E(1)
-    pow = 1.5
-    tmp.ranks.pent.req = player.ranks.pent.scaleEvery('pent').div(fp).pow(pow).add(15).floor()
-    tmp.ranks.pent.bulk = player.ranks.tetr.sub(15).gte(0)?player.ranks.tetr.sub(15).max(0).root(pow).mul(fp).scaleEvery('pent',true).add(1).floor():E(0);
+    fp = u.fp.tier()
+    pow = scalingInitPower("tier")
+    d.tier.req = s.tier.scaleEvery("tier").div(fp).add(2).pow(pow).floor()
+    d.tier.bulk = s.rank.max(0).root(pow).sub(2).mul(fp).scaleEvery("tier", 1).add(1).floor();
 
-    for (let x = 0; x < RANKS.names.length; x++) {
-        let rn = RANKS.names[x]
+    fp = u.fp.tetr()
+    pow = scalingInitPower("tetr")
+    d.tetr.req = s.tetr.scaleEvery("tetr").div(fp).pow(pow).mul(3).add(10).floor()
+    d.tetr.bulk = s.tier.sub(10).div(3).max(0).root(pow).mul(fp).scaleEvery("tetr", 1).add(1).floor();
+
+	fp = u.fp.pent()
+    pow = scalingInitPower("pent")
+	d.pent.req = s.pent.div(fp).pow(pow).add(15).floor()
+	d.pent.bulk = s.tetr.sub(15).max(0).root(pow).mul(fp).add(1).floor();
+
+    for (let x = 0; x < u.names.length; x++) {
+        let rn = u.names[x]
         if (x > 0) {
-            tmp.ranks[rn].can = player.ranks[RANKS.names[x-1]].gte(tmp.ranks[rn].req)
-        }
-    }
-
-    // Prestige
-
-    tmp.prestiges.baseMul = PRESTIGES.base()
-    tmp.prestiges.baseExp = PRESTIGES.baseExponent()
-    tmp.prestiges.base = tmp.prestiges.baseMul.pow(tmp.prestiges.baseExp)
-    for (let x = 0; x < PRES_LEN; x++) {
-        tmp.prestiges.req[x] = PRESTIGES.req(x)
-        for (let y in PRESTIGES.rewardEff[x]) {
-            if (PRESTIGES.rewardEff[x][y]) tmp.prestiges.eff[x][y] = PRESTIGES.rewardEff[x][y][0]()
-        }
-    }
-}
-
-function updateRanksHTML() {
-    tmp.el.rank_tabs.setDisplay(hasUpgrade('br',9))
-    for (let x = 0; x < 2; x++) {
-        tmp.el["rank_tab"+x].setDisplay(tmp.rank_tab == x)
-    }
-
-    if (tmp.rank_tab == 0) {
-        for (let x = 0; x < RANKS.names.length; x++) {
-            let rn = RANKS.names[x]
-            let unl = RANKS.unl[rn]?RANKS.unl[rn]():true
-            tmp.el["ranks_div_"+x].setDisplay(unl)
-            if (unl) {
-                let keys = Object.keys(RANKS.desc[rn])
-                let desc = ""
-                for (let i = 0; i < keys.length; i++) {
-                    if (player.ranks[rn].lt(keys[i])) {
-                        desc = ` At ${RANKS.fullNames[x]} ${format(keys[i],0)}, ${RANKS.desc[rn][keys[i]]}`
-                        break
-                    }
-                }
-    
-                tmp.el["ranks_scale_"+x].setTxt(getScalingName(rn))
-                tmp.el["ranks_amt_"+x].setTxt(format(player.ranks[rn],0))
-                tmp.el["ranks_"+x].setClasses({btn: true, reset: true, locked: !tmp.ranks[rn].can})
-                tmp.el["ranks_desc_"+x].setTxt(desc)
-                tmp.el["ranks_req_"+x].setTxt(x==0?formatMass(tmp.ranks[rn].req):RANKS.fullNames[x-1]+" "+format(tmp.ranks[rn].req,0))
-                tmp.el["ranks_auto_"+x].setDisplay(RANKS.autoUnl[rn]())
-                tmp.el["ranks_auto_"+x].setTxt(player.auto_ranks[rn]?"ON":"OFF")
-            }
-        }
-    }
-    if (tmp.rank_tab == 1) {
-        tmp.el.pres_base.setHTML(`${tmp.prestiges.baseMul.format(0)}<sup>${format(tmp.prestiges.baseExp)}</sup> = ${tmp.prestiges.base.format(0)}`)
-
-        for (let x = 0; x < PRES_LEN; x++) {
-            let unl = PRESTIGES.unl[x]?PRESTIGES.unl[x]():true
-
-            tmp.el["pres_div_"+x].setDisplay(unl)
-
-            if (unl) {
-                let p = player.prestiges[x] || E(0)
-                let keys = Object.keys(PRESTIGES.rewards[x])
-                let desc = ""
-                for (let i = 0; i < keys.length; i++) {
-                    if (p.lt(keys[i])) {
-                        desc = ` At ${PRESTIGES.fullNames[x]} ${format(keys[i],0)}, ${PRESTIGES.rewards[x][keys[i]]}`
-                        break
-                    }
-                }
-
-                tmp.el["pres_scale_"+x].setTxt(getScalingName("prestige"+x))
-                tmp.el["pres_amt_"+x].setTxt(format(p,0))
-                tmp.el["pres_"+x].setClasses({btn: true, reset: true, locked: x==0?tmp.prestiges.base.lt(tmp.prestiges.req[x]):player.prestiges[x-1].lt(tmp.prestiges.req[x])})
-                tmp.el["pres_desc_"+x].setTxt(desc)
-                tmp.el["pres_req_"+x].setTxt(x==0?format(tmp.prestiges.req[x],0)+" of Prestige Base":PRESTIGES.fullNames[x-1]+" "+format(tmp.prestiges.req[x],0))
-                tmp.el["pres_auto_"+x].setDisplay(false)
-                tmp.el["pres_auto_"+x].setTxt(false?"ON":"OFF")
-            }
+            d[rn].can = s[u.names[x-1]].gte(d[rn].req)
         }
     }
 }
