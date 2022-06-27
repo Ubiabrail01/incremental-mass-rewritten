@@ -19,6 +19,7 @@ const ENTROPY = {
         let x = tmp.en.eff.eth.mul(getEnRewardEff(6))
         if (hasElement(93)) x = x.mul(tmp.elements.effect[93]||1)
         if (player.md.break.upgs[6].gte(1)) x = x.mul(tmp.bd.upgs[6].eff?tmp.bd.upgs[6].eff[0]:1)
+        for(let i = 0; i<player.supernova.times;i++)x.mul(1.1)
         return x
     },
     cap() {

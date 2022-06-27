@@ -20,49 +20,49 @@ const QCs = {
     ctn: [
         {
             eff(i) {
-                return [1-0.03*i,2/(i+2)]
+                return [1-0.01*i,10/(i+1)]
             },
             effDesc(x) { return `^${format(x[0])} to exponent from All-Stars resources.<br>^${format(x[1])} to strength of star generators.` },
         },{
             eff(i) {
-                let x = E(2).pow(i**2)
+                let x = E(1.5).pow(i**1.5)
                 return x
             },
             effDesc(x) { return `/${format(x,0)} to pre-Quantum global speed.` },
         },{
             eff(i) {
-                let x = i**1.5*0.15+1
+                let x = i**1.3*0.015+1
                 return x
             },
             effDesc(x) { return `x${format(x)} to requirements of any Fermions.` },
         },{
             eff(i) {
-                let x = 0.9**(i**1.25)
+                let x = 0.95**(i**1.2)
                 return x
             },
             effDesc(x) { return `^${format(x)} to multiplier from Bosonic & Radiation resources.` },
         },{
             eff(i) {
-                let x = 0.8**(i**1.25)
+                let x = 0.9**(i**1.2)
                 return x
             },
             effDesc(x) { return `^${format(x)} to multiplier from pre-Supernova resources, except All-Stars resources.` },
         },{
             eff(i) {
-                let x = 1.2**i
+                let x = 1.15**i
                 return x
             },
             effDesc(x) { return `x${format(x)} to requirements of any pre-Quantum Challenges.` },
         },{
             eff(i) {
-                let x = i**1.5/2+1
+                let x = i**1.4/2+1
                 return x
             },
             effDesc(x) { return `^${format(x)} to Mass Dilation’s penalty.` },
         },{
             eff(i) {
                 if (hasElement(98) && player.qu.rip.active) i *= 0.8
-                let x = [1-0.05*i,i/10+1]
+                let x = [1-0.02*i,i/30+1]
                 return x
             },
             effDesc(x) { return `^${format(x[0])} to starting of pre-Quantum scaling.<br>${format(x[1]*100)}% to strength of pre-Quantum scaling.` },

@@ -119,9 +119,9 @@ const FERMIONS = {
                 isMass: true,
             },{
                 maxTier() {
-                    let x = 15
-                    if (hasTree("fn9")) x += 2
-                    if (hasTree("fn11")) x += 5
+                    let x = 1500
+                    if (hasTree("fn9")) x += 200
+                    if (hasTree("fn11")) x += 500
                     return x
                 },
                 nextTierAt(x) {
@@ -145,8 +145,8 @@ const FERMIONS = {
                 cons: "You are trapped in Mass Dilation and Challenges 3-5",
             },{
                 maxTier() {
-                    let x = 30
-                    if (hasTree("fn11")) x += 5
+                    let x = 3000
+                    if (hasTree("fn11")) x += 500
                     return x
                 },
                 nextTierAt(x) {
@@ -171,8 +171,8 @@ const FERMIONS = {
                 isMass: true,
             },{
                 maxTier() {
-                    let x = 10
-                    if (hasTree("fn11")) x += 5
+                    let x = 1000
+                    if (hasTree("fn11")) x += 500
                     return x
                 },
                 nextTierAt(x) {
@@ -200,8 +200,8 @@ const FERMIONS = {
             {
                 maxTier() {
                     if (hasTree("fn10")) return 1/0
-                    let x = 15
-                    if (hasTree("fn5")) x += 35
+                    let x = 1500
+                    if (hasTree("fn5")) x += 3500
                     return x
                 },
                 nextTierAt(x) {
@@ -267,9 +267,9 @@ const FERMIONS = {
                 cons: "You are trapped in Challenges 8-9",
             },{
                 maxTier() {
-                    let x = 15
-                    if (hasTree("fn9")) x += 2
-                    if (hasTree("fn11")) x += 5
+                    let x = 1500
+                    if (hasTree("fn9")) x += 200
+                    if (hasTree("fn11")) x += 500
                     return x
                 },
                 nextTierAt(x) {
@@ -293,8 +293,8 @@ const FERMIONS = {
                 cons: "Star generators are decreased to ^0.5",
             },{
                 maxTier() {
-                    let x = 25
-                    if (hasTree("fn11")) x += 5
+                    let x = 2500
+                    if (hasTree("fn11")) x += 500
                     return x
                 },
                 nextTierAt(x) {

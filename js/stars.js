@@ -3,7 +3,7 @@ const STARS = {
     gain() {
         let x = player.stars.generators[0]
         if (player.md.upgs[8].gte(1)) x = x.mul(tmp.md.upgs[8].eff)
-        if (hasPrestige(1,1)) x = x.pow(2)
+        if (hasPrestige(1,1)) x = x.pow(2.5)
         return x.softcap(tmp.stars.softGain,tmp.stars.softPower,0)
     },
     softGain() {
@@ -45,6 +45,7 @@ const STARS = {
             if (QCs.active() && pow.gte(1)) pow = pow.pow(tmp.qu.qc_eff[0][1])
 
             let x = E(player.stars.unls > i ? 1 : 0).add(player.stars.generators[i+1]||0).pow(pow)
+            for(let i = 0; i<player.supernova.times;i++)x.mul(1.1)
         
 
             if (hasElement(49) && i==4) x = x.mul(tmp.elements.effect[49])

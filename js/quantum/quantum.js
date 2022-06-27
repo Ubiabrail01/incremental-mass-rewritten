@@ -3,6 +3,7 @@ const QUANTUM = {
         let x = player.mass.max(1).log10().div(1e13)
         if (x.lt(1)) return E(0)
         x = x.max(0).pow(hasTree("qu11")?3:1.5)
+        for(let i = 0; i<player.supernova.times;i++)x.mul(1.1)
 
         x = x.mul(tmp.qu.qc_s_eff)
         if (tmp.qu.mil_reached[4]) x = x.mul(2)

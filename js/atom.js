@@ -6,6 +6,7 @@ const ATOM = {
         x = x.root(5)
         if (player.mainUpg.rp.includes(15)) x = x.mul(tmp.upgs.main?tmp.upgs.main[1][15].effect:E(1))
         x = x.mul(tmp.bosons.upgs.gluon[0].effect)
+        for(let i = 0; i<player.supernova.times;i++)x.mul(1.1)
         if (hasElement(17)) x = x.pow(1.1)
         x = x.pow(tmp.prim.eff[3][0])
         if (hasElement(111)) x = x.pow(tmp.elements.effect[111])

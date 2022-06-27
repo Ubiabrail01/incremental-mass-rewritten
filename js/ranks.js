@@ -74,7 +74,7 @@ const RANKS = {
             '220': "rank 40 reward is overpowered.",
             '300': "rank multiplie quark gain.",
             '380': "rank multiplie mass gain.",
-            '800': "make mass gain softcap 0.25% weaker based on rank.",
+            '800': "make mass gain softcap 0.5% weaker based on rank.",
         },
         tier: {
             '1': "reduce rank reqirements by 20%.",
@@ -108,15 +108,15 @@ const RANKS = {
     effect: {
         rank: {
             '3'() {
-                let ret = E(player.massUpg[1]||0).div(20)
+                let ret = E(player.massUpg[1]||0).div(2)
                 return ret
             },
             '5'() {
-                let ret = E(player.massUpg[2]||0).div(40)
+                let ret = E(player.massUpg[2]||0).div(4)
                 return ret
             },
             '6'() {
-                let ret = player.ranks.rank.add(1).pow(player.ranks.rank.gte(17)?player.ranks.rank.add(1).root(3):2)
+                let ret = player.ranks.rank.add(3).pow(player.ranks.rank.gte(17)?player.ranks.rank.add(1).root(2):2)
                 return ret
             },
             '40'() {
@@ -130,7 +130,7 @@ const RANKS = {
                 return ret
             },
             '300'() {
-                let ret = player.ranks.rank.add(1)
+                let ret = player.ranks.rank.mul(3).add(1)
                 return ret
             },
             '380'() {
@@ -138,7 +138,7 @@ const RANKS = {
                 return ret
             },
             '800'() {
-                let ret = E(1).sub(player.ranks.rank.sub(799).mul(0.0025).add(1).softcap(1.25,0.5,0).sub(1)).max(0.75)
+                let ret = E(1).sub(player.ranks.rank.sub(799).mul(0.005).add(1).softcap(1.25,0.5,0).sub(1)).max(0.75)
                 return ret
             },
         },
@@ -165,7 +165,7 @@ const RANKS = {
         },
         tetr: {
             '2'() {
-                let ret = E(player.massUpg[3]||0).div(400)
+                let ret = E(player.massUpg[3]||0).div(20)
                 if (ret.gte(1) && hasPrestige(0,15)) ret = ret.pow(1.5)
                 return ret
             },
