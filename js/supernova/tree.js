@@ -87,7 +87,7 @@ const TREE_UPGS = {
             effect() {
                 let sn = player.supernova.times
                 if (!hasTree("qu4")) sn = sn.softcap(15,0.8,0).softcap(25,0.5,0)
-                let x = E(2).add(hasTree("sn4")?tmp.supernova.tree_eff.sn4:0).pow(sn)
+                let x = E(3).add(hasTree("sn4")?tmp.supernova.tree_eff.sn4:0).pow(sn)
                 return x
             },
             effDesc(x) { return format(x)+"x" },
