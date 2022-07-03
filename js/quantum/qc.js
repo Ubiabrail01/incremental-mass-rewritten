@@ -20,7 +20,7 @@ const QCs = {
     ctn: [
         {
             eff(i) {
-                return [1-0.001*i,400/(i+1)]
+                return [1-0.001*i,1/(i/5+1)]
             },
             effDesc(x) { return `^${format(x[0])} to exponent from All-Stars resources.<br>^${format(x[1])} to strength of star generators.` },
         },{
