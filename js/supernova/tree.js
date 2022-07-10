@@ -323,7 +323,7 @@ const TREE_UPGS = {
             effDesc(x) { return format(x)+"x" },
         },
         gr2: {
-            unl() { return player.supernova.fermions.unl },
+            unl() { return true },
             branch: ["gr1"],
             desc: `Cosmic Rays Power is raised to 1.25th power.`,
             cost: E(1e20),
